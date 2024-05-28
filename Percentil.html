@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Subsidios para Vivienda</title>
+    <link rel="stylesheet" href="Simulaciones/styles.css">
+</head>
+<body>
+    <h1>Mejores Subsidios segun sueldo</h1>
+    <form id="subsidy-form">
+        <label for="total-income">Sueldo Mensual Total (CLP):</label>
+        <input type="number" id="total-income" required>
+
+        <label for="household-size">Número de Personas en el Hogar:</label>
+        <input type="number" id="household-size" required>
+
+        <label for="rent">Arriendo Mensual (CLP):</label>
+        <input type="number" id="rent" required>
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    <div id="results">
+        <!-- Los resultados del cálculo se mostrarán aquí -->
+    </div>
+
+    <script src="script.js"></script>
+
+    <button onclick="window.location.href='menu.html'">Volver</button>
+
+</body>
+</html>

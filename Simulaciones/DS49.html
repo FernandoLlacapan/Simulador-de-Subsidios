@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subsidio DS49</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Subsidio DS49</h1>
+    <p>Ingrese la cantidad de su ahorro en UF (mínimo 10 UF) y seleccione si la vivienda es urbana o rural:</p>
+    <form id="savings-form">
+        <input type="number" id="savings-uf" min="10" max="60" required>
+        <select id="zone-type">
+            <option value="rural">Rural</option>
+            <option value="urban">Urbano</option>
+        </select>
+        <button type="submit">Calcular Subsidio</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="savings.js"></script>
+
+    <button onclick="window.location.href='../calculadora.html'">Volver</button>
+</body>
+</html>
+
+<!DOCTYPE html>
+</body>
+</html>

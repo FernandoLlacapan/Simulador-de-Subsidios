@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subsidio DS1 Tramo 3</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Subsidio DS1 Tramo 3</h1>
+    <form id="ds1t3-form">
+        <label for="total-income">Sueldo Mensual Total (CLP):</label>
+        <input type="number" id="total-income" required>
+
+        <label for="savings-uf">Ahorro en UF (mínimo 80 UF):</label>
+        <input type="number" id="savings-uf" min="80" required>
+
+        <label for="location">Ubicación:</label>
+        <select id="location" onchange="adjustMaxPropertyValue()" required>
+            <option value="none">Ninguno</option>
+            <option value="north">Extremo Norte</option>
+            <option value="south">Extremo Sur</option>
+        </select>
+
+        <label for="loan-term">Plazo del Crédito (años):</label>
+        <select id="loan-term" required>
+            <option value="10">10 años</option>
+            <option value="15">15 años</option>
+            <option value="20">20 años</option>
+            <option value="25" selected>25 años</option>
+            <option value="30">30 años</option>
+        </select>
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="ds1t3.js"></script>
+
+    <button onclick="window.location.href='../Percentil.html'">Volver</button>
+
+    <script>
+        function adjustMaxPropertyValue() {
+            const location = document.getElementById('location').value;
+            const propertyValueInput = document.getElementById('property-value');
+
+            if (location === 'none') {
+                propertyValueInput.max = 2200;
+            } else {
+                propertyValueInput.max = 2600;
+            }
+        }
+    </script>
+</body>
+</html>

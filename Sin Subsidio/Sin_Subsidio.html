@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de Compra sin Subsidio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Simulación de Compra sin Subsidio</h1>
+    <form id="simulacion-form">
+        <label for="property-value">Valor de la Vivienda (en UF):</label>
+        <input type="number" id="property-value" min="1" required>
+
+        <label for="down-payment">Pie (en UF o porcentaje):</label>
+        <select id="down-payment-type" onchange="adjustDownPaymentOptions()">
+            <option value="uf">UF</option>
+            <option value="percentage">Porcentaje</option>
+        </select>
+        <input type="number" id="down-payment" min="10" max="50" required>
+
+        <label for="interest-rate">Tasa de Interés Anual (%):</label>
+        <input type="number" id="interest-rate" value="5.1" required>
+
+        <label for="loan-term">Plazo del Crédito (años):</label>
+        <select id="loan-term" required>
+            <option value="10">10 años</option>
+            <option value="15">15 años</option>
+            <option value="20">20 años</option>
+            <option value="25" selected>25 años</option>
+            <option value="30">30 años</option>
+        </select>
+        <br>
+        <button type="submit">Calcular</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="simulacion.js"></script>
+
+    <button onclick="window.location.href='../menu.html'">Volver</button>
+</body>
+</html>
