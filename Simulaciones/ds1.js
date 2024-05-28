@@ -19,7 +19,7 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
         baseSubsidy = 600; // Subsidio base
     }
 
-    const totalSubsidy = baseSubsidy + savingsUf; // Sumar ahorro al subsidio
+    const subsidy = baseSubsidy + savingsUf; // Sumar ahorro al subsidio
     const loanAmount = propertyValue - totalSubsidy; // Monto del crédito necesario
 
     // Cálculo del crédito hipotecario
