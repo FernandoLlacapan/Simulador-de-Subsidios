@@ -33,6 +33,9 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
     const minimumIncome = monthlyPayment * 4;
     const minimumIncomeCLP = minimumIncome * ufValue; // Convertir la renta mínima a CLP
     
+    // Formatear los resultados en miles
+    const formatCurrency = (value) => value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
+
     // Mostrar el resultado
     resultsDiv.innerHTML = `
         <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF.</p>
