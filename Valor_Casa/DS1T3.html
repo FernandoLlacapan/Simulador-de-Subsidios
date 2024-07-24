@@ -51,6 +51,19 @@
                 propertyValueInput.max = 2600;
             }
         }
+
+        // Función para obtener el valor actual de la UF desde una API
+        async function fetchUFValue() {
+            try {
+                const response = await fetch('https://mindicador.cl/api/uf');
+                const data = await response.json();
+                const ufValue = data.serie[0].valor;
+                return ufValue;
+            } catch (error) {
+                console.error('Error al obtener el valor de la UF:', error);
+                return 37396.77; // Valor predeterminado en caso de error
+            }
+        }
     </script>
 </body>
 </html>

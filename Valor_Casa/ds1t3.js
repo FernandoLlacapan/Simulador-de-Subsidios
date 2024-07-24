@@ -1,4 +1,4 @@
-document.getElementById('ds1t3-form').addEventListener('submit', function(event) {
+document.getElementById('ds1t3-form').addEventListener('submit', async function(event) {
     event.preventDefault(); // Evitar que el formulario se envíe y la página se recargue
 
     const totalIncome = parseFloat(document.getElementById('total-income').value);
@@ -6,7 +6,7 @@ document.getElementById('ds1t3-form').addEventListener('submit', function(event)
     const location = document.getElementById('location').value;
     const loanTerm = parseInt(document.getElementById('loan-term').value);
     const interestRate = 5.1 / 100; // Tasa de interés anual fija
-    const ufValue = 37396.77; // Valor actual de la UF en CLP
+    const ufValue = await fetchUFValue(); // Obtener el valor actual de la UF desde la API
     const resultsDiv = document.getElementById('results');
 
     // Verificar que el ahorro no sea menor a 80 UF
