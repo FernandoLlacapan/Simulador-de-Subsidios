@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subsidio DS1 Tramo 3</title>
+    <title>Subsidio DS1 Tramo 3 y Crédito Hipotecario</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Subsidio DS1 Tramo 3 y Crédito Hipotecario</h1>
+    <h1>Subsidio DS1 Tramo 3</h1>
     <form id="ds1t3-form">
         <label for="property-value">Valor de la Vivienda (en UF):</label>
-        <input type="number" id="property-value" min="800" max="2200" required>
+        <input type="number" id="property-value" min="800" max="1600" required>
 
         <label for="savings-uf">Ahorro en UF (mínimo 80 UF):</label>
-        <input type="number" id="savings-uf" min="80" required>
+        <input type="number" id="savings-uf" min="80" onchange="adjustMaxPropertyValue()" required>
 
         <label for="location">Ubicación:</label>
         <select id="location" onchange="adjustMaxPropertyValue()" required>
@@ -21,6 +21,9 @@
             <option value="north">Extremo Norte</option>
             <option value="south">Extremo Sur</option>
         </select>
+
+        <label for="is-new-home">¿La vivienda es nueva?</label>
+        <input type="checkbox" id="is-new-home" onchange="adjustMaxPropertyValue()">
 
         <label for="uf-value">Valor actual de la UF (CLP):</label>
         <input type="number" id="uf-value" readonly required>
@@ -48,31 +51,38 @@
     <button onclick="window.location.href='../calculadora.html'">Volver</button>
 
     <script>
+        // Función para ajustar el valor máximo de la propiedad según el ahorro y la condición de vivienda nueva
         function adjustMaxPropertyValue() {
-            const location = document.getElementById('location').value;
+            const savingsUf = parseFloat(document.getElementById('savings-uf').value);
+            const isNewHome = document.getElementById('is-new-home').checked;
             const propertyValueInput = document.getElementById('property-value');
 
-            if (location === 'none') {
+            // Si el ahorro es menor a 160 UF, el valor máximo de la propiedad será 1,600 UF.
+            if (savingsUf < 160) {
                 propertyValueInput.max = 2200;
+            } else if (isNewHome && savingsUf >= 160) {
+                // Si la propiedad es nueva y el ahorro es 160 UF o más, el valor máximo de la propiedad será 3,000 UF.
+                propertyValueInput.max = 3000;
             } else {
-                propertyValueInput.max = 2600;
+                propertyValueInput.max = 2200;
             }
         }
 
-            // Función para obtener el valor actual de la UF desde una API
-            async function fetchUFValue() {
-                try {
-                    const response = await fetch('https://mindicador.cl/api/uf');
-                    const data = await response.json();
-                    const ufValue = data.serie[0].valor;
-                    document.getElementById('uf-value').value = ufValue.toFixed(2);
-                } catch (error) {
-                    console.error('Error al obtener el valor de la UF:', error);
-                }
+        // Función para obtener el valor actual de la UF desde una API
+        async function fetchUFValue() {
+            try {
+                const response = await fetch('https://mindicador.cl/api/uf');
+                const data = await response.json();
+                const ufValue = data.serie[0].valor;
+                document.getElementById('uf-value').value = ufValue.toFixed(2);
+            } catch (error) {
+                console.error('Error al obtener el valor de la UF:', error);
             }
+        }
 
-            // Llamar a la función fetchUFValue al cargar la página
-            document.addEventListener('DOMContentLoaded', fetchUFValue);
+        // Llamar a la función fetchUFValue al cargar la página
+        document.addEventListener('DOMContentLoaded', fetchUFValue);
     </script>
+
 </body>
 </html>

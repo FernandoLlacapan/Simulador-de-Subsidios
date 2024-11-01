@@ -16,7 +16,7 @@
         <input type="number" id="property-value" required>
 
         <label for="uf-value">Valor actual de la UF (CLP):</label>
-        <input type="number" id="uf-value" value="37396.77" required>
+        <input type="number" id="uf-value" step="0.01" required>        
 
         <label for="interest-rate">Tasa de Interés Anual (%):</label>
         <input type="number" id="interest-rate" value="5.1" required>
@@ -45,5 +45,23 @@
     <script src="ds1.js"></script>
 
     <button onclick="window.location.href='../calculadora.html'">Volver</button>
+
+    <script>
+        // Función para obtener el valor actual de la UF desde una API
+        async function fetchUFValue() {
+            try {
+                const response = await fetch('https://mindicador.cl/api/uf');
+                const data = await response.json();
+                const ufValue = data.serie[0].valor;
+                document.getElementById('uf-value').value = ufValue.toFixed(2);
+            } catch (error) {
+                console.error('Error al obtener el valor de la UF:', error);
+            }
+        }
+
+        // Llamar a la función fetchUFValue al cargar la página
+        document.addEventListener('DOMContentLoaded', fetchUFValue);
+    </script>
+
 </body>
 </html>

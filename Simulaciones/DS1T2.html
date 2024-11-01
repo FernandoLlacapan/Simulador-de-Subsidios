@@ -13,7 +13,7 @@
         <input type="number" id="property-value" min="800" max="1600" required>
 
         <label for="savings-uf">Ahorro en UF (mínimo 40 UF):</label>
-        <input type="number" id="savings-uf" min="40" required>
+        <input type="number" id="savings-uf" min="40" onchange="adjustMaxPropertyValue()" required>
 
         <label for="location">Ubicación:</label>
         <select id="location" onchange="adjustMaxPropertyValue()" required>
@@ -21,6 +21,9 @@
             <option value="north">Extremo Norte</option>
             <option value="south">Extremo Sur</option>
         </select>
+
+        <label for="is-new-home">¿La vivienda es nueva?</label>
+        <input type="checkbox" id="is-new-home" onchange="adjustMaxPropertyValue()">
 
         <label for="uf-value">Valor actual de la UF (CLP):</label>
         <input type="number" id="uf-value" readonly required>
@@ -48,14 +51,20 @@
     <button onclick="window.location.href='../calculadora.html'">Volver</button>
 
     <script>
+        // Función para ajustar el valor máximo de la propiedad según el ahorro y la condición de vivienda nueva
         function adjustMaxPropertyValue() {
-            const location = document.getElementById('location').value;
+            const savingsUf = parseFloat(document.getElementById('savings-uf').value);
+            const isNewHome = document.getElementById('is-new-home').checked;
             const propertyValueInput = document.getElementById('property-value');
 
-            if (location === 'none') {
+            // Si el ahorro es menor a 80 UF, el valor máximo de la propiedad será 1,600 UF.
+            if (savingsUf < 80) {
                 propertyValueInput.max = 1600;
+            } else if (isNewHome && savingsUf >= 80) {
+                // Si la propiedad es nueva y el ahorro es 80 UF o más, el valor máximo de la propiedad será 3,000 UF.
+                propertyValueInput.max = 3000;
             } else {
-                propertyValueInput.max = 1800;
+                propertyValueInput.max = 1600;
             }
         }
 

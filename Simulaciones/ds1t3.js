@@ -7,46 +7,47 @@ document.getElementById('ds1t3-form').addEventListener('submit', function(event)
     const ufValue = parseFloat(document.getElementById('uf-value').value); // Obtener el valor actual de la UF en CLP
     const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
     const loanTerm = parseInt(document.getElementById('loan-term').value);
+    const isNewHome = document.getElementById('is-new-home').checked;
     const resultsDiv = document.getElementById('results');
 
-    // Verificar que el ahorro no sea menor a 80 UF
+    // Verificar que el ahorro no sea menor a 40 UF
     if (savingsUf < 80) {
         resultsDiv.innerHTML = 'El ahorro debe ser de al menos 80 UF.';
         return;
     }
 
-    // Calcular el subsidio basado en las reglas del DS1 Tramo 3
-    let subsidy;
-    if (location === 'north') {
-        if (propertyValue <= 1200) {
-            subsidy = 500;
-        } else if (propertyValue >= 1600) {
-            subsidy = 350;
-        } else {
-            // Calcular la pendiente de la recta entre 1200 UF y 1600 UF
-            subsidy = 500 - ((propertyValue - 1200) * (150 / 400));
-        }
-    } else if (location === 'south') {
-        if (propertyValue <= 1200) {
-            subsidy = 550;
-        } else if (propertyValue >= 1600) {
-            subsidy = 400;
-        } else {
-            // Calcular la pendiente de la recta entre 1200 UF y 1600 UF
-            subsidy = 550 - ((propertyValue - 1200) * (150 / 400));
-        }
-    } else {
-        if (propertyValue <= 1200) {
-            subsidy = 400;
-        } else if (propertyValue >= 1600) {
-            subsidy = 250;
-        } else {
-            // Calcular la pendiente de la recta entre 1200 UF y 1600 UF
-            subsidy = 400 - ((propertyValue - 1200) * (150 / 400));
-        }
+    // Ajustar el valor máximo de la vivienda y subsidio si la vivienda es nueva y el ahorro es 80 UF o más
+    let maxPropertyValue = 1600;
+    let additionalSubsidy = 0;
+
+    if (isNewHome && savingsUf >= 160) {
+        maxPropertyValue = 3000;
+        additionalSubsidy = 150;
     }
 
-    // Ajustar el subsidio para valores superiores a 1600 UF
+    // Calcular el subsidio basado en la ubicación y el valor de la vivienda
+    let subsidy;
+    if (location === 'north') {
+        if (propertyValue <= 800) {
+            subsidy = 650;
+        } else if (propertyValue >= maxPropertyValue) {
+            subsidy = 350;
+        } else {
+            subsidy = 650 - ((propertyValue - 800) * (300 / 800));
+        }
+    } else if (location === 'south') {
+        if (propertyValue <= 800) {
+            subsidy = 700;
+        } else if (propertyValue >= maxPropertyValue) {
+            subsidy = 400;
+        } else {
+            subsidy = 700 - ((propertyValue - 800) * (300 / 800));
+        }
+    } else {
+        subsidy = 550 - ((propertyValue - 800) * (300 / 800));
+    }
+
+    // Ajustar el subsidio para valores superiores al límite de propiedad definido
     if (propertyValue > 1600) {
         if (location === 'north') {
             subsidy = 350;
@@ -57,10 +58,12 @@ document.getElementById('ds1t3-form').addEventListener('submit', function(event)
         }
     }
 
-    // Verificar si el valor máximo de la vivienda excede el límite
-    const maxPropertyValue = (location === 'none') ? 2200 : 2600;
-    if (propertyValue > maxPropertyValue) {
-        resultsDiv.innerHTML = `El valor máximo de la vivienda no puede exceder ${maxPropertyValue} UF.`;
+    // Agregar el subsidio adicional si aplica
+    subsidy += additionalSubsidy;
+
+    // Verificar si el valor máximo de la vivienda es menor a 800 UF
+    if (propertyValue < 800) {
+        resultsDiv.innerHTML = 'No le sirve este subsidio.';
         return;
     }
 
@@ -77,13 +80,13 @@ document.getElementById('ds1t3-form').addEventListener('submit', function(event)
     const minimumIncome = monthlyPayment * 4;
     const minimumIncomeCLP = minimumIncome * ufValue; // Convertir la renta mínima a CLP
 
-    // Formatear los resultados en miles
+    // Función para formatear en CLP
     const formatCurrency = (value) => value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
 
     // Mostrar el resultado
     resultsDiv.innerHTML = `
-        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF.</p>
-        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF.</p>
+        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF. (${formatCurrency(subsidy * ufValue)})</p>
+        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF. (${formatCurrency(loanAmount * ufValue)})</p>
         <p>Dividendo Mensual Estimado: ${monthlyPayment.toFixed(2)} UF (${formatCurrency(monthlyPaymentCLP)}).</p>
         <p>Renta Mínima Requerida (aprox. 4 veces el dividendo): ${minimumIncome.toFixed(2)} UF (${formatCurrency(minimumIncomeCLP)}).</p>
     `;

@@ -7,6 +7,7 @@ document.getElementById('simulacion-form').addEventListener('submit', function(e
     const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
     const loanTerm = parseInt(document.getElementById('loan-term').value);
     const resultsDiv = document.getElementById('results');
+    const ufValue = parseFloat(document.getElementById('uf-value').value); // Obtener el valor actual de la UF en CLP
 
     // Ajustar el pie según el tipo seleccionado
     if (downPaymentType === 'percentage') {
@@ -14,7 +15,7 @@ document.getElementById('simulacion-form').addEventListener('submit', function(e
             resultsDiv.innerHTML = 'No puede seleccionar un pie del 10% para viviendas de más de 4500 UF.';
             return;
         }
-        downPayment = (downPayment / 100) * propertyValue;
+        downPayment = (downPayment / 50) * propertyValue;
     }
 
     // Calcular el monto del crédito necesario
@@ -37,7 +38,7 @@ document.getElementById('simulacion-form').addEventListener('submit', function(e
         <p>El pie es ${downPayment.toFixed(2)} UF.</p>
         <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF.</p>
         <p>Dividendo Mensual Estimado: ${monthlyPayment.toFixed(2)} UF (${formatCurrency(monthlyPayment * 37396.77)}).</p>
-        <p>Renta Mínima Requerida (aprox. 4 veces el dividendo): ${minimumIncome.toFixed(2)} UF (${formatCurrency(minimumIncome * 37396.77)}).</p>
+        <p>Renta Mínima Requerida (aprox. 4 veces el dividendo): ${minimumIncome.toFixed(2)} UF (${formatCurrency(minimumIncome * ufValue)}).</p>
     `;
 });
 

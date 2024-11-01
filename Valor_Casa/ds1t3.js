@@ -84,10 +84,13 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
         valor = maxPropertyValue;
     }
 
+    // Función para formatear en CLP
+    const formatCurrency = (value) => value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
+
     // Mostrar el resultado
     resultsDiv.innerHTML = `
-        <p>El valor máximo de la vivienda que puede comprar es ${valor.toFixed(2)} UF.</p>
-        <p>El crédito máximo que puede obtener es ${maxLoanAmountUF.toFixed(2)} UF.</p>
-        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF.</p>
+        <p>El valor máximo de la vivienda que puede comprar es ${valor.toFixed(2)} UF. (${formatCurrency(valor*ufValue)}) </p>
+        <p>El crédito máximo que puede obtener es ${maxLoanAmountUF.toFixed(2)} UF. (${formatCurrency(maxLoanAmountUF*ufValue)}) </p>
+        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF. (${formatCurrency(subsidy*ufValue)}) </p>
     `;
 });

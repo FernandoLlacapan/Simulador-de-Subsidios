@@ -2,12 +2,18 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar que el formulario se envíe y la página se recargue
 
     const totalIncome = parseFloat(document.getElementById('total-income').value);
-    const savingsUf = parseInt(document.getElementById('savings-uf').value);
+    const savingsUf = parseFloat(document.getElementById('savings-uf').value);
     const location = document.getElementById('location').value;
     const loanTerm = parseInt(document.getElementById('loan-term').value);
     const interestRate = 5.1 / 100; // Tasa de interés anual fija
-    const ufValue = 37396.77; // Valor actual de la UF en CLP
+    const ufValue = parseFloat(document.getElementById('uf-value').value);
     const resultsDiv = document.getElementById('results');
+
+    // Validación de campos
+    if (isNaN(totalIncome) || isNaN(savingsUf) || isNaN(loanTerm) || isNaN(ufValue)) {
+        resultsDiv.innerHTML = `<p style="color: red;">Por favor, complete todos los campos correctamente.</p>`;
+        return;
+    }
 
     // Calcular el monto máximo del crédito basado en el ingreso disponible
     const monthlyIncomeAvailable = totalIncome / 4; // Asumiendo que 1/4 del ingreso está disponible para el dividendo
@@ -40,9 +46,12 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
         }
     }
 
+    // Función para formatear valores en CLP
+    const formatCurrency = (value) => value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
+
     // Mostrar el resultado
     resultsDiv.innerHTML = `
-        <p>Con su ingreso y ahorro, el valor máximo de la vivienda que puede comprar es ${maxPropertyValue.toFixed(2)} UF.</p>
-        <p>El subsidio total que podría recibir es de ${subsidyUF} UF.</p>
+        <p>Con su ingreso y ahorro, el valor máximo de la vivienda que puede comprar es ${maxPropertyValue.toFixed(2)} UF (${formatCurrency(maxPropertyValue * ufValue)}).</p>
+        <p>El subsidio total que podría recibir es de ${subsidyUF} UF (${formatCurrency(subsidyUF * ufValue)}).</p>
     `;
 });

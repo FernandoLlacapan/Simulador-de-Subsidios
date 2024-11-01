@@ -20,7 +20,7 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
     }
 
     const subsidy = baseSubsidy + savingsUf; // Sumar ahorro al subsidio
-    const loanAmount = propertyValue - totalSubsidy; // Monto del crédito necesario
+    const loanAmount = propertyValue - subsidy; // Monto del crédito necesario
 
     // Cálculo del crédito hipotecario
     const monthlyRate = interestRate / 12;
@@ -38,8 +38,8 @@ document.getElementById('ds1-form').addEventListener('submit', function(event) {
 
     // Mostrar el resultado
     resultsDiv.innerHTML = `
-        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF.</p>
-        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF.</p>
+        <p>El subsidio total que podría recibir es de ${subsidy.toFixed(2)} UF. (${formatCurrency(subsidy*ufValue)})</p>
+        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF. (${formatCurrency(loanAmount*ufValue)})</p>
         <p>Dividendo Mensual Estimado: ${monthlyPayment.toFixed(2)} UF (${formatCurrency(monthlyPaymentCLP)}).</p>
         <p>Renta Mínima Requerida (aprox. 4 veces el dividendo): ${minimumIncome.toFixed(2)} UF (${formatCurrency(minimumIncomeCLP)}).</p>
     `;
