@@ -15,7 +15,7 @@ document.getElementById('simulacion-form').addEventListener('submit', function(e
             resultsDiv.innerHTML = 'No puede seleccionar un pie del 10% para viviendas de más de 4500 UF.';
             return;
         }
-        downPayment = (downPayment / 50) * propertyValue;
+        downPayment = (downPayment / 100) * propertyValue;
     }
 
     // Calcular el monto del crédito necesario

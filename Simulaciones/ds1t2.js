@@ -30,21 +30,24 @@ document.getElementById('ds1t2-form').addEventListener('submit', function(event)
     if (location === 'north') {
         if (propertyValue <= 800) {
             subsidy = 650;
-        } else if (propertyValue >= maxPropertyValue) {
-            subsidy = 350;
-        } else {
+        } 
+        else {
             subsidy = 650 - ((propertyValue - 800) * (300 / 800));
         }
     } else if (location === 'south') {
         if (propertyValue <= 800) {
             subsidy = 700;
-        } else if (propertyValue >= maxPropertyValue) {
-            subsidy = 400;
-        } else {
+        }
+        else {
             subsidy = 700 - ((propertyValue - 800) * (300 / 800));
         }
     } else {
-        subsidy = 550 - ((propertyValue - 800) * (300 / 800));
+        if(propertyValue <= 800) {
+            subsidy = 550
+            }
+        else{
+            subsidy = 550 - ((propertyValue - 800) * (300 / 800));
+            }
     }
 
     // Ajustar el subsidio para valores superiores al límite de propiedad definido
@@ -61,8 +64,8 @@ document.getElementById('ds1t2-form').addEventListener('submit', function(event)
     // Agregar el subsidio adicional si aplica
     subsidy += additionalSubsidy;
 
-    // Verificar si el valor máximo de la vivienda es menor a 800 UF
-    if (propertyValue < 800) {
+    // Verificar si el valor máximo de la vivienda es menor a 500 UF
+    if (propertyValue < 500) {
         resultsDiv.innerHTML = 'No le sirve este subsidio.';
         return;
     }
