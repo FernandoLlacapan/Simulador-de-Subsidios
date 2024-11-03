@@ -28,7 +28,8 @@ document.getElementById('subsidy-form').addEventListener('submit', function(even
             <div class="subsidy-card">
                 <a href="Valor_Casa/DS1T1.html">
                     <h2>Subsidio DS1 Tramo 1</h2>
-                    <p>Subsidio para personas del 60% más vulnerables</p>
+                    <p>Subsidio para la compra de viviendas de hasta 1.100UF (Hasta un 60% del vulnerabilidad)</p>
+
                 </a>
             </div>
         `;
@@ -43,12 +44,12 @@ document.getElementById('subsidy-form').addEventListener('submit', function(even
             </div>
         `;
     }
-    if (percentil <= 90) {
+    if (percentil <= 100) {
         subsidyInfo += `
             <div class="subsidy-card">
                 <a href="Valor_Casa/DS1T3.html">
                     <h2>Subsidio DS1 Tramo 3</h2>
-                    <p>Subsidio para la compra de viviendas de hasta 2.200 UF (Hasta un 90% de vulnerabilidad)</p>
+                    <p>Subsidio para la compra de viviendas de hasta 2.200 UF (Solamente pide RHS)</p>
                 </a>
             </div>
         `;

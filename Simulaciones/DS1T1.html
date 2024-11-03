@@ -9,11 +9,15 @@
 <body>
     <h1>Subsidio DS1 Tramo 1</h1>
     <form id="ds1-form">
-        <label for="ds1-savings-uf">Ahorro en UF (mínimo 30 UF):</label>
-        <input type="number" id="ds1-savings-uf" min="30" required>
+
+        <label for="property-value-clp">Valor de la Vivienda (en CLP):</label>
+        <input type="number" id="property-value-clp" onchange="convertToUF()">
 
         <label for="property-value">Valor de la Vivienda (en UF):</label>
-        <input type="number" id="property-value" required>
+        <input type="number" id="property-value" required step="0.01" max="1100">
+
+        <label for="ds1-savings-uf">Ahorro en UF (mínimo 30 UF):</label>
+        <input type="number" id="ds1-savings-uf" min="30" required>
 
         <label for="uf-value">Valor actual de la UF (CLP):</label>
         <input type="number" id="uf-value" step="0.01" required>        
@@ -61,6 +65,15 @@
 
         // Llamar a la función fetchUFValue al cargar la página
         document.addEventListener('DOMContentLoaded', fetchUFValue);
+
+        function convertToUF() {
+            const ufValue = parseFloat(document.getElementById('uf-value').value);
+            const propertyValueCLP = parseFloat(document.getElementById('property-value-clp').value);
+            const propertyValueUF = propertyValueCLP / ufValue;
+        
+            document.getElementById('property-value').value = Math.min(propertyValueUF).toFixed(2);
+        }
+
     </script>
 
 </body>

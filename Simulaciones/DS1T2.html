@@ -9,8 +9,12 @@
 <body>
     <h1>Subsidio DS1 Tramo 2</h1>
     <form id="ds1t2-form">
+
+        <label for="property-value-clp">Valor de la Vivienda (en CLP):</label>
+        <input type="number" id="property-value-clp" onchange="convertToUF()">
+
         <label for="property-value">Valor de la Vivienda (en UF):</label>
-        <input type="number" id="property-value" min="600" max="1600" required>
+        <input type="number" id="property-value" min="600" max="1600" required step="0.01">
 
         <label for="savings-uf">Ahorro en UF (mínimo 40 UF):</label>
         <input type="number" id="savings-uf" min="40" onchange="adjustMaxPropertyValue()" required>
@@ -29,7 +33,7 @@
         <input type="number" id="uf-value" readonly required>
 
         <label for="interest-rate">Tasa de Interés Anual (%):</label>
-        <input type="number" id="interest-rate" value="5.1" required>
+        <input type="number" id="interest-rate" value="5.1" required step="0.01">
 
         <label for="loan-term">Plazo del Crédito (años):</label>
         <select id="loan-term" required>
@@ -82,6 +86,19 @@
 
         // Llamar a la función fetchUFValue al cargar la página
         document.addEventListener('DOMContentLoaded', fetchUFValue);
+
+        function convertToUF() {
+            const ufValue = parseFloat(document.getElementById('uf-value').value);
+            const propertyValueCLP = parseFloat(document.getElementById('property-value-clp').value);
+            const propertyValueUF = propertyValueCLP / ufValue;
+        
+            // Limitar el valor máximo a 1600 UF o 3000 UF dependiendo del ahorro y condiciones previas
+            const savingsUf = parseFloat(document.getElementById('savings-uf').value);
+            const isNewHome = document.getElementById('is-new-home').checked;
+            const maxUF = (isNewHome && savingsUf >= 80) ? 3000 : 1600;
+        
+            document.getElementById('property-value').value = Math.min(propertyValueUF, maxUF).toFixed(2);
+        }
     </script>
 
 </body>

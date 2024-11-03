@@ -15,6 +15,12 @@
         <label for="savings-uf">Ahorro en UF (mínimo 40 UF):</label>
         <input type="number" id="savings-uf" min="40" required>
 
+        <p></p>
+        <label for="is-new-home">¿La vivienda es nueva?</label>
+        <input type="checkbox" id="is-new-home">
+
+        <p></p>
+
         <label for="location">Ubicación:</label>
         <select id="location" onchange="adjustMaxPropertyValue()" required>
             <option value="none">Zona Regular</option>
@@ -22,6 +28,7 @@
             <option value="south">Extremo Sur</option>
         </select>
 
+        <p></p>
         <label for="loan-term">Plazo del Crédito (años):</label>
         <select id="loan-term" required>
             <option value="10">10 años</option>

@@ -16,7 +16,7 @@ document.getElementById('ds1t2-form').addEventListener('submit', function(event)
         return;
     }
 
-    // Ajustar el valor máximo de la vivienda y subsidio si la vivienda es nueva y el ahorro es 80 UF o más
+    // Ajustar el valor máximo de la vivienda y subsidio si la vivienda es nueva y el ahorro es 40 UF o más
     let maxPropertyValue = 1600;
     let additionalSubsidy = 0;
 

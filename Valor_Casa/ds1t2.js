@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const location = document.getElementById('location').value;
         const loanTerm = parseInt(document.getElementById('loan-term').value);
         const interestRate = 5.1 / 100; // Tasa de interés anual fija
+        const isNewHome = document.getElementById('is-new-home').checked; // Verificar si la vivienda es nueva
         const resultsDiv = document.getElementById('results');
 
         // Validación de ahorro mínimo
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Calcular el valor máximo de la vivienda y el subsidio
         let propertyValue;
         let subsidy;
+        let additionalSubsidy = 0;
 
         if (location === 'north') {
             propertyValue = (maxLoanAmountUF + savingsUf + 950) / 1.375;
@@ -47,11 +49,24 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         } else {
             propertyValue = (maxLoanAmountUF + savingsUf + 850) / 1.375;
+            if (propertyValue <= 800) {
+                subsidy = 550;
+            } else if (propertyValue >= 1600) {
+                subsidy = 250;
+            } else {
             subsidy = 550 - ((propertyValue - 800) * (300 / 800));
+            }
         }
 
-        // Ajustar el subsidio si el valor de la propiedad excede 1600 UF
-        if (propertyValue > 1600) {
+        // Ajustar el límite de la propiedad si el ahorro es igual o mayor a 80 UF y la vivienda es nueva
+        let maxPropertyValue = 1600; // Límite de 1600 UF por defecto
+        if (savingsUf >= 80 && isNewHome) {
+            maxPropertyValue = 3000;
+            additionalSubsidy = 150; // Límite de 3000 UF si el ahorro es mayor a 80 UF y la vivienda es nueva
+        }
+
+        // Ajustar el subsidio si el valor de la propiedad excede el límite máximo de UF
+        if (propertyValue > maxPropertyValue) {
             if (location === 'north') {
                 subsidy = 350;
             } else if (location === 'south') {
@@ -59,17 +74,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             } else {
                 subsidy = 250;
             }
+            propertyValue = maxPropertyValue;
         }
 
-        // Verificar si el valor máximo de la propiedad es menor a 800 UF
-        if (propertyValue < 800) {
+        // Verificar si el valor máximo de la propiedad es menor a 600 UF
+        if (propertyValue < 600) {
             resultsDiv.innerHTML = 'No le sirve este subsidio.';
             return;
         }
 
         // Calcular el valor total de la propiedad considerando subsidio y límites
-        let valor = maxLoanAmountUF + savingsUf + subsidy;
-        const maxPropertyValue = location === 'none' ? 1600 : 1800;
+        let valor = maxLoanAmountUF + savingsUf + subsidy + additionalSubsidy;
         if (valor > maxPropertyValue) {
             valor = maxPropertyValue;
         }

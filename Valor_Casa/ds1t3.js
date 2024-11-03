@@ -7,6 +7,7 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
     const loanTerm = parseInt(document.getElementById('loan-term').value);
     const interestRate = 5.1 / 100; // Tasa de interés anual fija
     const ufValue = await fetchUFValue(); // Obtener el valor actual de la UF desde la API
+    const isNewHome = document.getElementById('is-new-home').checked; // Verificar si la vivienda es nueva
     const resultsDiv = document.getElementById('results');
 
     // Verificar que el ahorro no sea menor a 80 UF
@@ -25,6 +26,7 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
     // Calcular el valor máximo de la vivienda usando la ecuación
     let propertyValue;
     let subsidy;
+    let additionalSubsidy = 0;
 
     if (location === 'north') {
         propertyValue = (maxLoanAmountUF + savingsUf + 950) / 1.375;
@@ -58,8 +60,15 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
         }
     }
 
+    // Ajustar el límite de la propiedad si el ahorro es igual o mayor a 80 UF y la vivienda es nueva
+    let maxPropertyValue = 2200; // Límite de 1600 UF por defecto
+    if (savingsUf >= 160 && isNewHome) {
+        maxPropertyValue = 3000;
+        additionalSubsidy = 150; // Límite de 3000 UF si el ahorro es mayor a 80 UF y la vivienda es nueva
+    }
+
     // Ajustar el subsidio para valores superiores a 1600 UF
-    if (propertyValue > 1600) {
+    if (propertyValue > maxPropertyValue) {
         if (location === 'north') {
             subsidy = 350;
         } else if (location === 'south') {
@@ -67,6 +76,7 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
         } else {
             subsidy = 250;
         }
+        propertyValue = maxPropertyValue;
     }
 
     // Verificar si el valor máximo de la vivienda es menor a 800 UF
@@ -76,14 +86,10 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
     }
 
     // Calcular el valor Maximo de la vivienda
-    const valor = maxLoanAmountUF + savingsUf + subsidy;
-
-    // Verificar si el valor máximo de la vivienda excede el límite
-    const maxPropertyValue = (location === 'none') ? 2200 : 2600;
-    if (valor > maxPropertyValue) {
-        valor = maxPropertyValue;
-    }
-
+    let valor = maxLoanAmountUF + savingsUf + subsidy + additionalSubsidy;
+        if (valor > maxPropertyValue) {
+            valor = maxPropertyValue;
+        }
     // Función para formatear en CLP
     const formatCurrency = (value) => value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
 

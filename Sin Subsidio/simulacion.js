@@ -34,10 +34,10 @@ document.getElementById('simulacion-form').addEventListener('submit', function(e
 
     // Mostrar el resultado
     resultsDiv.innerHTML = `
-        <p>El valor de la vivienda es ${propertyValue.toFixed(2)} UF.</p>
-        <p>El pie es ${downPayment.toFixed(2)} UF.</p>
-        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF.</p>
-        <p>Dividendo Mensual Estimado: ${monthlyPayment.toFixed(2)} UF (${formatCurrency(monthlyPayment * 37396.77)}).</p>
+        <p>El valor de la vivienda es ${propertyValue.toFixed(2)} UF. (${formatCurrency(propertyValue * ufValue)}) </p>
+        <p>El pie es ${downPayment.toFixed(2)} UF. (${formatCurrency(downPayment * ufValue)}) </p>
+        <p>Monto del Crédito Hipotecario necesario: ${loanAmount.toFixed(2)} UF. (${formatCurrency(loanAmount * ufValue)}) </p>
+        <p>Dividendo Mensual Estimado: ${monthlyPayment.toFixed(2)} UF (${formatCurrency(monthlyPayment * ufValue)}).</p>
         <p>Renta Mínima Requerida (aprox. 4 veces el dividendo): ${minimumIncome.toFixed(2)} UF (${formatCurrency(minimumIncome * ufValue)}).</p>
     `;
 });
