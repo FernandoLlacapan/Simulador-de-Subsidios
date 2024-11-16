@@ -3,34 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subsidio DS1 Tramo 1</title>
+    <title>Subsidio DS19 - Cálculo de Crédito Hipotecario</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Subsidio DS1 Tramo 1</h1>
-    <form id="ds1-form">
-
-        <label for="property-value-clp">Valor de la Vivienda (en CLP):</label>
-        <input type="number" id="property-value-clp" onchange="convertToUF()">
-
-        <label for="property-value">Valor de la Vivienda (en UF):</label>
-        <input type="number" id="property-value" required step="0.01" max="1100">
-
-        <label for="ds1-savings-uf">Ahorro en UF (mínimo 30 UF):</label>
-        <input type="number" id="ds1-savings-uf" min="30" required>
-
-        <label for="uf-value">Valor actual de la UF (CLP):</label>
-        <input type="number" id="uf-value" step="0.01" required>        
+    <h1>Subsidio DS19</h1>
+    <form id="ds19-form">
+        <label for="loan-amount">Monto del Crédito Hipotecario (en UF):</label>
+        <input type="number" id="loan-amount" min="1" required>
 
         <label for="interest-rate">Tasa de Interés Anual (%):</label>
         <input type="number" id="interest-rate" value="5.1" required step="0.01">
-
-        <label for="location">Ubicación:</label>
-        <select id="location" required>
-            <option value="none">Zona Regular</option>
-            <option value="north">Extremo Norte</option>
-            <option value="south">Extremo Sur</option>
-        </select>
 
         <label for="loan-term">Plazo del Crédito (años):</label>
         <select id="loan-term" required>
@@ -40,13 +23,16 @@
             <option value="25" selected>25 años</option>
             <option value="30">30 años</option>
         </select>
-        <br>
-        <button type="submit">Calcular Crédito Hipotecario</button>
+
+        <label for="uf-value">Valor actual de la UF (CLP):</label>
+        <input type="number" id="uf-value" readonly>
+
+        <button type="submit">Calcular Dividendo y Renta Mínima</button>
     </form>
 
     <div id="results"></div>
 
-    <script src="ds1.js"></script>
+    <script src="ds19.js"></script>
 
     <button onclick="window.location.href='../calculadora.html'">Volver</button>
 
@@ -65,16 +51,6 @@
 
         // Llamar a la función fetchUFValue al cargar la página
         document.addEventListener('DOMContentLoaded', fetchUFValue);
-
-        function convertToUF() {
-            const ufValue = parseFloat(document.getElementById('uf-value').value);
-            const propertyValueCLP = parseFloat(document.getElementById('property-value-clp').value);
-            const propertyValueUF = propertyValueCLP / ufValue;
-        
-            document.getElementById('property-value').value = Math.min(propertyValueUF).toFixed(2);
-        }
-
     </script>
-
 </body>
 </html>

@@ -5,7 +5,7 @@ document.getElementById('ds1t3-form').addEventListener('submit', async function(
     const savingsUf = parseInt(document.getElementById('savings-uf').value);
     const location = document.getElementById('location').value;
     const loanTerm = parseInt(document.getElementById('loan-term').value);
-    const interestRate = 5.1 / 100; // Tasa de interés anual fija
+    const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
     const ufValue = await fetchUFValue(); // Obtener el valor actual de la UF desde la API
     const isNewHome = document.getElementById('is-new-home').checked; // Verificar si la vivienda es nueva
     const resultsDiv = document.getElementById('results');

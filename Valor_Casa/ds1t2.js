@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const savingsUf = parseFloat(document.getElementById('savings-uf').value);
         const location = document.getElementById('location').value;
         const loanTerm = parseInt(document.getElementById('loan-term').value);
-        const interestRate = 5.1 / 100; // Tasa de interés anual fija
+        const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
         const isNewHome = document.getElementById('is-new-home').checked; // Verificar si la vivienda es nueva
         const resultsDiv = document.getElementById('results');
 
